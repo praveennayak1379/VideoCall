@@ -1,0 +1,97 @@
+#root{
+    width:100%;
+    min-height: 100vh;
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+.landingPageContainer{
+    width:100%;
+    height:100vh;
+    background: url("/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.landingPageContainer nav{
+    padding-inline:1.2rem;
+    padding-block:1.6rem;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+}
+.landingPageContainer nav h2{
+    font-size:1.8rem;
+    font-weight:500;
+}
+.landingPageContainer nav .navlist{
+    display:flex;
+    gap:1.6rem;
+    cursor:pointer;
+}
+.landingMainContainer{
+    display:flex;
+    justify-content: space-between;
+    padding-inline:3rem;
+    height:80vh;
+    align-items:center;
+
+}
+.landingMainContainer > div:nth-child(1) {
+    font-size:2.2rem;
+}
+.landingMainContainer >div:nth-child(1) div[role='button']{
+    background:#D97500;
+    width:fit-content;
+    padding:1rem;
+    border-radius: 20px;
+    margin-top:1.4rem;
+}
+.landingMainContainer >div:nth-child(1) div[role='button'] a{
+    text-decoration: none;
+    color:white;
+    font-size:1.8rem;
+
+}
+
+
+.landingMainContainer > div:nth-child(2) img{
+    height: 70vh;
+}
+
+
+/* phone images */
+.phoneContainer {
+    position: relative;
+    width: 650px;
+    height: 600px;
+}
+
+/* Both images */
+.phone {
+    position: absolute;
+    width: 330px;
+    height: 560px;
+    object-fit: cover;
+    border-radius: 35px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+/* BACK IMAGE */
+.phoneBack {
+    right: 0;
+    top: 50px;
+    transform: rotate(8deg);
+    z-index: 1;
+}
+
+/* FRONT IMAGE */
+.phoneFront {
+    left: 20px;
+    top: 0;
+    transform: rotate(-8deg);
+    z-index: 2;
+}
