@@ -3,7 +3,10 @@ import mongoose from "mongoose";
 import {createServer} from "node:http";
 import cors from "cors";
 import connectToSocket from "./controllers/socketManager.js";
-import "dotenv/config";
+import dotenv from "dotenv";
+
+
+dotenv.config();
 
 //user router
 import userRoutes from "./routes/users.routes.js";
