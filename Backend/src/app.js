@@ -32,7 +32,6 @@ const start=async()=>
 {
     try 
     {
-        console.log(process.env.MONGO_URL);
         await mongoose.connect(process.env.MONGO_URL);
         console.log("MongoDB is connected successfully ");
         server.listen(process.env.PORT,()=>
