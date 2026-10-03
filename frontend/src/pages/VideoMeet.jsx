@@ -1,6 +1,7 @@
 import "./VideoMeet.css";
 
 import { useRef, useState, useEffect } from "react";
+import server from "../environment.js";
 
 import {
     Box,
@@ -26,7 +27,7 @@ import {
 
 import { io } from "socket.io-client";
 
-const server_url = "http://localhost:3000";
+const server_url = server;
 
 // socketId -> RTCPeerConnection
 var connections = {};
