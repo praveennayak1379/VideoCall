@@ -28,6 +28,10 @@ app.use("/users/api",userRoutes);
 
 
 
+
+app.get("/",(req,res)=>{
+    res.send("Video call backend is working");
+});
 const start=async()=>
 {
     try 
