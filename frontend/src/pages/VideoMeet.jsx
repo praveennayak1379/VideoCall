@@ -28,6 +28,7 @@ import {
 import { io } from "socket.io-client";
 
 const server_url = server;
+console.log("Server url",server_url);
 
 // socketId -> RTCPeerConnection
 var connections = {};
