@@ -11,6 +11,7 @@ function App() {
     <BrowserRouter>
     <AuthProvider>
       <Routes>
+        <Route path="/"         element={<LandingPage/>} />
         <Route path='/landing'  element={<LandingPage/>} />
         <Route path='/auth'     element={<Authentication/>}/>
         <Route path='/home'     element={<Home/>}/>
