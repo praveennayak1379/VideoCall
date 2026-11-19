@@ -9,9 +9,8 @@ const connectToSocket=(server)=>
     const io=new Server(server,{
         cors:
         {
-            origin:"*",
+            origin:"https://videocall-frontend1.onrender.com",
             methods:["GET","POST"],
-            allowedHeaders:["*"],
             credentials:true
         }
     });
