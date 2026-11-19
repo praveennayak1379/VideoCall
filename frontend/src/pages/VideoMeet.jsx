@@ -107,6 +107,8 @@ function VideoMeetComponent() {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
 
+    const [mediaReady, setMediaReady] = useState(false);
+
     /*
     ------------------------------------------------
     LOCAL VIDEO REF (FIX #1)
