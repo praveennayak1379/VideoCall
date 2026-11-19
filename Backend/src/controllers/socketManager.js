@@ -19,11 +19,14 @@ const connectToSocket=(server)=>
     {
         socket.on("join-call",(path)=>
         {
+            console.log("User joined room",path);
+            console.log("Socket ID:",socket.id);
             if(connections[path]===undefined)
             {
                 connections[path]=[]
             }
             connections[path].push(socket.id);
+            console.log("USERS IN THIS ROOM",connections[path]);
             timeOnline[socket.id]=new Date();
             for(let a=0;a<connections[path].length;a++)
             {
