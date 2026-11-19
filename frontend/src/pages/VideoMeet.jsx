@@ -40,11 +40,14 @@ const peerConfigConnections = {
         {
             urls: "stun:stun.l.google.com:19302"
         },
-        {
-            urls: import.meta.env.VITE_TURN_URL,
-            username: import.meta.env.VITE_TURN_USERNAME,
-            credential: import.meta.env.VITE_TURN_CREDENTIAL
-        }
+
+        ...(import.meta.env.VITE_TURN_URL
+            ? [{
+                urls: import.meta.env.VITE_TURN_URL,
+                username: import.meta.env.VITE_TURN_USERNAME,
+                credential: import.meta.env.VITE_TURN_CREDENTIAL
+            }]
+            : [])
     ]
 };
 /*
@@ -134,23 +137,17 @@ function VideoMeetComponent() {
 const getPermissions = async () => {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({
-
-            // Video quality settings
             video: {
                 width: { ideal: 1280 },
                 height: { ideal: 720 },
                 frameRate: { ideal: 30 }
             },
-
-            // Audio quality settings
             audio: {
                 echoCancellation: true,
                 noiseSuppression: true,
                 autoGainControl: true
             }
         });
-
-        console.log("Camera and microphone permission granted");
 
         window.localStream = stream;
 
@@ -159,22 +156,23 @@ const getPermissions = async () => {
 
         if (localVideoRef.current) {
             localVideoRef.current.srcObject = stream;
+
+            await localVideoRef.current.play().catch(console.error);
         }
 
         if (navigator.mediaDevices.getDisplayMedia) {
             setScreenAvailable(true);
         }
 
+        setMediaReady(true);
+
+        console.log("Camera initialized successfully");
+        console.log("Video tracks:", stream.getVideoTracks());
+
     } catch (err) {
-        console.error("Error accessing camera/microphone:", err);
+        console.error("Camera initialization failed:", err.name, err.message);
 
-        if (err.name === "NotAllowedError") {
-            console.log("Camera/microphone permission was denied");
-        }
-
-        if (err.name === "NotFoundError") {
-            console.log("Camera or microphone not found");
-        }
+        setMediaReady(false);
     }
 };
 
@@ -556,20 +554,25 @@ const getPermissions = async () => {
     ------------------------------------------------
     */
 
-    const connect = () => {
+const connect = () => {
 
-        if (!username.trim()) {
-            alert("Please enter username");
-            return;
-        }
+    if (!username.trim()) {
+        alert("Please enter username");
+        return;
+    }
 
-        setAskForUsername(false);
+    if (!mediaReady || !window.localStream) {
+        alert("Please wait for camera and microphone initialization");
+        return;
+    }
 
-        setVideo(videoAvailable);
-        setAudio(audioAvailable);
+    setAskForUsername(false);
 
-        connectToSocketServer();
-    };
+    setVideo(videoAvailable);
+    setAudio(audioAvailable);
+
+    connectToSocketServer();
+};
 
     /*
     ==================================================
@@ -631,6 +634,7 @@ const getPermissions = async () => {
 
                     <button
                         onClick={connect}
+                        disabled={!mediaReady}
                         style={{
                             width: "100%",
                             marginTop: "20px",
@@ -640,10 +644,10 @@ const getPermissions = async () => {
                             background: "#1976d2",
                             color: "white",
                             fontSize: "16px",
-                            cursor: "pointer"
+                            cursor: mediaReady ? "pointer" : "not allowed"
                         }}
                     >
-                        Join Meeting
+                        {mediaReady ? "Join Meeting" :"Initializaing Camera..."}
                     </button>
 
                     <Box sx={{ mt: 3 }}>
