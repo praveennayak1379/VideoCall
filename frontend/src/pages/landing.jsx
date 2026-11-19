@@ -1,39 +1,57 @@
+
 import "./landing.css";
-import {Link} from "react-router-dom";
-function LandingPage()
-{
-    return(
+import { Link } from "react-router-dom";
+
+function LandingPage() {
+    return (
         <div className="landingPageContainer">
+
+            {/* NAVBAR */}
             <nav>
                 <div className="navHeader">
                     <h2>Alpha Video Call</h2>
                 </div>
+
                 <div className="navlist">
                     <p>Join as Guest</p>
                     <p>Register</p>
-                    <div role='button'>
-                        <p>Login</p>
-                    </div>
+                    <p>Login</p>
                 </div>
             </nav>
 
+            {/* MAIN HERO SECTION */}
             <div className="landingMainContainer">
-                <div>
-                    <h1><span style={{color:"#FF9839"}}>Connect</span> with your loved ones</h1>
-                    <p>Cover a distance by Apna video call </p>
-                    <div role='button'>
-                        <Link to={"/auth"}>Get Started</Link>
+
+                {/* LEFT SIDE - CONTENT */}
+                <div className="heroContent">
+                    <h1>
+                        <span>Connect</span> with your loved ones
+                    </h1>
+
+                    <p>Cover a distance by Apna video call</p>
+
+                    <div className="getStarted">
+                        <Link to="/auth">Get Started</Link>
+                    </div>
+                </div>
+
+                {/* RIGHT SIDE - IMAGES */}
+                <div className="phoneContainer">
+
+                    <div className="phoneCard phoneBack">
+                        <img src="/photo1.jpg" alt="Video call preview 1" />
                     </div>
 
-                </div>
-                <div className="phoneContainer">
-                    <img src="/photo1.jpg" className="phone phoneBack" alt="Video call"/>
-                    <img src="/photo2.jpg" className="phone phoneFront" alt="Video call" />
+                    <div className="phoneCard phoneFront">
+                        <img src="/photo2.jpg" alt="Video call preview 2" />
+                        <h2>Praveen</h2>
+                    </div>
+
                 </div>
 
             </div>
         </div>
-
-    )
+    );
 }
+
 export default LandingPage;
