@@ -122,11 +122,24 @@ function VideoMeetComponent() {
     ------------------------------------------------
     */
 
+
 const getPermissions = async () => {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: true
+
+            // Video quality settings
+            video: {
+                width: { ideal: 1280 },
+                height: { ideal: 720 },
+                frameRate: { ideal: 30 }
+            },
+
+            // Audio quality settings
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true
+            }
         });
 
         console.log("Camera and microphone permission granted");
@@ -156,6 +169,7 @@ const getPermissions = async () => {
         }
     }
 };
+
     useEffect(() => {
 
         getPermissions();
