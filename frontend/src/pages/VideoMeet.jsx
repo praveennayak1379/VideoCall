@@ -725,97 +725,44 @@ const getPermissions = async () => {
                     overflow: "auto"
                 }}
             >
+<Box
+    className="video-grid"
+>
+    {/* LOCAL VIDEO */}
+    <Box className="video-tile">
 
-                <Box
-                    sx={{
-                        display: "grid",
-                        gridTemplateColumns: `repeat(${videos.length + 1 >= 3 ? 2 : 1
-                            }, minmax(0, 1fr))`,
-                        gap: 2,
-                        alignContent: "center"
-                    }}
-                >
+        <video
+            ref={setLocalVideo}
+            autoPlay
+            muted
+            playsInline
+        />
 
-                    {/* LOCAL VIDEO */}
+        <Box className="participant-name">
+            You ({username})
+        </Box>
 
-                    <Box
-                        sx={{
-                            position: "relative",
-                            background: "#1c1c24",
-                            borderRadius: 3,
-                            overflow: "hidden",
-                            height: "45vh",
-                            minHeight: "250px"
-                        }}
-                    >
+    </Box>
 
-                        <video
-                            ref={setLocalVideo}
-                            autoPlay
-                            muted
-                            playsInline
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover"
-                            }}
-                        />
+    {/* REMOTE VIDEOS */}
+    {videos.map((v) => (
 
-                        <Box
-                            sx={{
-                                position: "absolute",
-                                bottom: 12,
-                                left: 12,
-                                background: "rgba(0,0,0,0.65)",
-                                padding: "6px 12px",
-                                borderRadius: 2
-                            }}
-                        >
-                            <Typography variant="body2">
-                                You ({username})
-                            </Typography>
-                        </Box>
+        <Box
+            key={v.socketId}
+            className="video-tile"
+        >
 
-                    </Box>
+            <RemoteVideo stream={v.stream} />
 
-                    {/* REMOTE VIDEOS */}
+            <Box className="participant-name">
+                Participant
+            </Box>
 
-                    {videos.map((v) => (
+        </Box>
 
-                        <Box
-                            key={v.socketId}
-                            sx={{
-                                position: "relative",
-                                background: "#1c1c24",
-                                borderRadius: 3,
-                                overflow: "hidden",
-                                height: "45vh",
-                                minHeight: "250px"
-                            }}
-                        >
+    ))}
 
-                            <RemoteVideo stream={v.stream} />
-
-                            <Box
-                                sx={{
-                                    position: "absolute",
-                                    bottom: 12,
-                                    left: 12,
-                                    background: "rgba(0,0,0,0.65)",
-                                    padding: "6px 12px",
-                                    borderRadius: 2
-                                }}
-                            >
-                                <Typography variant="body2">
-                                    Participant
-                                </Typography>
-                            </Box>
-
-                        </Box>
-
-                    ))}
-
-                </Box>
+</Box>
 
                 {/* CHAT PANEL */}
 
