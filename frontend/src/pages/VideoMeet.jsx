@@ -36,9 +36,17 @@ var connections = {};
 var pendingCandidates = {};
 
 const peerConfigConnections = {
-    iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+    iceServers: [
+        {
+            urls: "stun:stun.l.google.com:19302"
+        },
+        {
+            urls: import.meta.env.VITE_TURN_URL,
+            username: import.meta.env.VITE_TURN_USERNAME,
+            credential: import.meta.env.VITE_TURN_CREDENTIAL
+        }
+    ]
 };
-
 /*
 ------------------------------------------------
 Remote video tile. Sets srcObject only when the
@@ -439,10 +447,29 @@ const getPermissions = async () => {
 
         // Send our camera + mic to this peer
         if (window.localStream) {
+
+    window.localStream.getTracks().forEach((track) => {
+
+        const sender = pc.addTrack(
+            track,
             window.localStream
-                .getTracks()
-                .forEach((track) => pc.addTrack(track, window.localStream));
+        );
+
+        if (track.kind === "video") {
+
+            const parameters = sender.getParameters();
+
+            parameters.encodings = [{
+                maxBitrate: 1500000,
+                maxFramerate: 30
+            }];
+
+            sender.setParameters(parameters)
+                .catch(console.error);
         }
+
+    });
+}
 
         // If we're already screen sharing, send the screen instead of the camera
         const screenTrack = screenStreamRef.current?.getVideoTracks()[0];
