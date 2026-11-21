@@ -35,21 +35,25 @@ var connections = {};
 // socketId -> ICE candidates that arrived before the remote description
 var pendingCandidates = {};
 
+const turnUrls = (import.meta.env.VITE_TURN_URL || "")
+    .split(",")
+    .map((u) => u.trim())
+    .filter(Boolean);
+
 const peerConfigConnections = {
     iceServers: [
-        {
-            urls: "stun:stun.l.google.com:19302"
-        },
-
-        ...(import.meta.env.VITE_TURN_URL
+        { urls: "stun:stun.l.google.com:19302" },
+        ...(turnUrls.length
             ? [{
-                urls: import.meta.env.VITE_TURN_URL,
+                urls: turnUrls,
                 username: import.meta.env.VITE_TURN_USERNAME,
                 credential: import.meta.env.VITE_TURN_CREDENTIAL
             }]
             : [])
     ]
 };
+
+console.log("TURN configured:", turnUrls.length > 0);
 /*
 ------------------------------------------------
 Remote video tile. Sets srcObject only when the
@@ -422,8 +426,13 @@ const getPermissions = async () => {
         connections[peerId] = pc;
         pendingCandidates[peerId] = [];
 
+          pc.oniceconnectionstatechange = () => {
+          console.log("ICE state with", peerId, ":", pc.iceConnectionState);
+       };
+
         pc.onicecandidate = (event) => {
             if (event.candidate) {
+                console.log("candidate:", event.candidate.candidate);                
                 socketRef.current.emit(
                     "signal",
                     peerId,
